@@ -11,7 +11,7 @@
             <li class="breadcrumb-item"><a href="{{ route('welcome') }}">Home</a></li>
             <li class="breadcrumb-item"><a href="{{ route('account.details', auth()->user()->username) }}">My Account</a>
             </li>
-            <li class="breadcrumb-item active">Edit</li>
+            <li class="breadcrumb-item active">Account Details</li>
           </ol>
         </div>
       </div>

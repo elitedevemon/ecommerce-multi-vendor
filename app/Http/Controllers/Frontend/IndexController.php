@@ -9,7 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\BillingAddress;
+use App\Models\User;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -24,7 +26,7 @@ class IndexController extends Controller
     return view("frontend.index", compact(['banners', 'categories', 'products']));
   }
 
-  public function categoryProduct($slug)
+  public function categoryProduct($slug): View
   {
     $category = Category::where('slug', $slug)
       ->with([
@@ -41,7 +43,7 @@ class IndexController extends Controller
     }
   }
 
-  public function productDetails($slug)
+  public function productDetails($slug): View
   {
     $product = Product::where('slug', $slug)->with([
       'vendor',
@@ -71,10 +73,10 @@ class IndexController extends Controller
     return view('frontend.pages.account.edit-details');
   }
 
-  public function accountUpdate(Request $request)
+  public function accountUpdate(Request $request): RedirectResponse
   {
 
-    $user = Auth::user();
+    $user = User::find(Auth::id());
 
     if ($request->full_name) {
       $user->full_name = $request->full_name;
@@ -104,7 +106,7 @@ class IndexController extends Controller
     return view('frontend.pages.account.orders');
   }
 
-  public function accountAddress()
+  public function accountAddress(): View
   {
     $user = Auth::user();
     $billing_address = $user->billingAddress;
@@ -112,15 +114,15 @@ class IndexController extends Controller
     return view('frontend.pages.account.address', compact(['user', 'billing_address', 'shipping_address']));
   }
 
-  public function billingAddress(Request $request)
+  public function billingAddress(Request $request): RedirectResponse
   {
-    $user = Auth::user();
+    $user = User::find(Auth::id());
     $user->billingAddress()->updateOrCreate($request->all());
     return back();
   }
-  public function shippingAddress(Request $request)
+  public function shippingAddress(Request $request): RedirectResponse
   {
-    $user = Auth::user();
+    $user = User::find(Auth::id());
     $user->shippingAddress()->updateOrCreate($request->all());
     return back();
   }

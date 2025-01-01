@@ -51,3 +51,11 @@
   </div>
   <!-- Cart Area End -->
 @endsection
+
+@section('scripts')
+  <script>
+    function proceedCheckout() {
+      $('#proceedCheckout').html('<i class="fa fa-spinner fa-spin"></i> Proceeding...')
+    }
+  </script>
+@endsection

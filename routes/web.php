@@ -5,11 +5,13 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Middleware\CheckoutAuthManagement;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -62,6 +64,23 @@ Route::prefix('wishlist')->name('wishlist.')->controller(WishlistController::cla
     Route::post('/table/destroy', 'tableDestroy')->name('table.destroy');
     Route::post('add-to-cart', 'addToCart')->name('add-to-cart');
     Route::get('add-all-item', 'addAllItem')->name('add-all-item');
+  });
+});
+
+//checkout routes
+Route::prefix('checkout')->controller(CheckoutController::class)->name('checkout.')->group(function () {
+  Route::get('/', 'index')->name('index')->middleware(CheckoutAuthManagement::class);
+  Route::post('/guest-or-register', 'guestOrRegister')->name('guest_or_register');
+  Route::post('/auth/login', 'authLogin')->name('auth.login');
+  //guest checkout
+  Route::middleware('guest')->prefix('guest')->name('guest.')->group(function () {
+    Route::get('/{guestId}', 'guestCheckoutBilling')->name('index');
+    Route::post('/guest/order/address', 'guestCheckoutOrderAddressStore')->name('order.address');
+  });
+  //auth checkout
+  Route::middleware('auth')->prefix('auth')->name('auth.')->group(function () {
+    Route::get('/billing', 'checkoutBilling')->name('billing');
+    Route::post('/auth/order/address', 'authCheckoutOrderAddress')->name('order.address');
   });
 });
 

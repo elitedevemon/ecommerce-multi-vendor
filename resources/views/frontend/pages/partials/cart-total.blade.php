@@ -30,5 +30,7 @@
       </tbody>
     </table>
   </div>
-  <a href="checkout-1.html" class="btn btn-primary d-block">Proceed To Checkout</a>
+  <a href="{{ route('checkout.index') }}" onclick="proceedCheckout()" id="proceedCheckout"
+    class="btn btn-primary d-block">Proceed To
+    Checkout</a>
 </div>

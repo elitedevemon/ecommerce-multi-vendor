@@ -11,7 +11,7 @@
             <li class="breadcrumb-item"><a href="{{ route('welcome') }}">Home</a></li>
             <li class="breadcrumb-item"><a href="{{ route('account.details', auth()->user()->username) }}">My Account</a>
             </li>
-            <li class="breadcrumb-item active">Orders</li>
+            <li class="breadcrumb-item active">Address</li>
           </ol>
         </div>
       </div>
@@ -33,26 +33,30 @@
             <div class="row">
               <div class="col-12 col-lg-6 mb-5 mb-lg-0">
                 <h6 class="mb-3">Billing Address</h6>
-                <address>
-                  {{ auth()->user()->full_name }} <br>
-                  {{ $billing_address->country }}, {{ $billing_address->city }} <br>
-                  {{ $billing_address->state }} <br>
-                  {{ $billing_address->street_address }} <br>
-                  {{ $billing_address->post_code }}
-                </address>
+                @if ($billing_address)
+                  <address>
+                    {{ auth()->user()->full_name }} <br>
+                    {{ $billing_address->country }}, {{ $billing_address->city }} <br>
+                    {{ $billing_address->state }} <br>
+                    {{ $billing_address->street_address }} <br>
+                    {{ $billing_address->post_code }}
+                  </address>
+                @endif
                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#billingAddress">
                   Edit Address
                 </button>
               </div>
               <div class="col-12 col-lg-6">
                 <h6 class="mb-3">Shipping Address</h6>
-                <address>
-                  {{ auth()->user()->full_name }} <br>
-                  {{ $shipping_address->country }}, {{ $shipping_address->city }} <br>
-                  {{ $shipping_address->state }} <br>
-                  {{ $shipping_address->street_address }} <br>
-                  {{ $shipping_address->post_code }}
-                </address>
+                @if ($shipping_address)
+                  <address>
+                    {{ auth()->user()->full_name }} <br>
+                    {{ $shipping_address->country }}, {{ $shipping_address->city }} <br>
+                    {{ $shipping_address->state }} <br>
+                    {{ $shipping_address->street_address }} <br>
+                    {{ $shipping_address->post_code }}
+                  </address>
+                @endif
                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#shippingAddress">
                   Edit Address
                 </button>
